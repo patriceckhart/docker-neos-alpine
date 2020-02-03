@@ -1,0 +1,25 @@
+web:
+  build: .
+  ports:
+    - '80:80'
+    - '22:22'
+  links:
+    - db:db
+  volumes:
+    - /data
+  environment:
+    - GITHUB_REPOSITORY=https://github.com/patriceckhart/NeosCMS-Boilerplate
+    - ADMIN_PASSWORD=password
+    - GITHUB_USERNAME=patriceckhart
+    
+db:
+  image: mariadb:latest
+  expose:
+    - 3306
+  volumes:
+    - /var/lib/data
+  environment:
+    MYSQL_DATABASE: 'db'
+    MYSQL_USER: 'admin'
+    MYSQL_PASSWORD: 'pass'
+    MYSQL_RANDOM_ROOT_PASSWORD: 'yes'
