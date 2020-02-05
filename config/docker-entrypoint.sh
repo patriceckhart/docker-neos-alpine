@@ -23,19 +23,19 @@ else
   chmod -R 775 /data
   echo "Neos installation completed."
   echo "Update database ..."
-  cd /data/neos && ./flow doctrine:migrate
-  cd /data/neos && ./flow doctrine:update
-  echo "Import site ..."
-  cd /data/neos && ./flow site:import Raw.Site
-  echo "Database updated."
+  #cd /data/neos && ./flow doctrine:migrate
+  #cd /data/neos && ./flow doctrine:update
+  #echo "Import site ..."
+  #cd /data/neos && ./flow site:import Raw.Site
+  #echo "Database updated."
 
-  echo "Create user ..."
-  cd /data/neos && ./flow user:create admin $ADMIN_PASSWORD inoovum admin
-  cd /data/neos && ./flow user:addrole admin Neos.Neos:Administrator
-  cd /data/neos && ./flow user:create $EDITOR_USERNAME $EDITOR_PASSWORD $EDITOR_FIRSTNAME $EDITOR_LASTNAME
-  cd /data/neos && ./flow user:addrole $EDITOR_USERNAME Neos.Neos:Editor
+  #echo "Create user ..."
+  #cd /data/neos && ./flow user:create admin $ADMIN_PASSWORD inoovum admin
+  #cd /data/neos && ./flow user:addrole admin Neos.Neos:Administrator
+  #cd /data/neos && ./flow user:create $EDITOR_USERNAME $EDITOR_PASSWORD $EDITOR_FIRSTNAME $EDITOR_LASTNAME
+  #cd /data/neos && ./flow user:addrole $EDITOR_USERNAME Neos.Neos:Editor
 
-  echo "admin and editor created."
+  #echo "admin and editor created."
 fi
 
 nginx
@@ -72,5 +72,5 @@ fi
 /usr/sbin/sshd
 echo "SSH has started."
 
-#tail -f /dev/null
-exec "$@"
+tail -f /dev/null
+#exec "$@"

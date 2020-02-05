@@ -5,7 +5,7 @@ MAINTAINER Patric Eckhart <mail@patriceckhart.com>
 RUN set -x \
 	&& apk update \
 	&& apk add bash \
-	&& apk add nano git nginx tar curl mysql-client optipng freetype libjpeg-turbo-utils icu-dev openssh build-base && apk add --virtual libtool freetype-dev libpng-dev libjpeg-turbo-dev yaml-dev \
+	&& apk add nano git nginx tar curl mysql-client optipng freetype libjpeg-turbo-utils icu-dev openssh pwgen build-base && apk add --virtual libtool freetype-dev libpng-dev libjpeg-turbo-dev yaml-dev \
 	&& docker-php-ext-configure gd \
 		--with-gd \
 		--with-freetype-dir=/usr/include/ \
