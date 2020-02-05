@@ -28,6 +28,7 @@ RUN set -x \
 	&& adduser -u 80 -G www-data -s /bin/bash -D www-data -h /data \
 	&& rm -Rf /home/www-data \
 	&& sed -i -e "s#listen = 9000#listen = /var/run/php-fpm.sock#" /usr/local/etc/php-fpm.d/zz-docker.conf \
+	&& sed -i -e "s#listen = 127.0.0.1:9000#listen = /var/run/php-fpm.sock#" /usr/local/etc/php-fpm.d/www.conf \
 	&& echo "clear_env = no" >> /usr/local/etc/php-fpm.d/zz-docker.conf \
 	&& echo "listen.owner = www-data" >> /usr/local/etc/php-fpm.d/zz-docker.conf \
 	&& echo "listen.group = www-data" >> /usr/local/etc/php-fpm.d/zz-docker.conf \
@@ -40,8 +41,11 @@ RUN curl -o /tmp/composer-setup.php https://getcomposer.org/installer && php /tm
 
 RUN rm -rf /etc/nginx/conf.d/default.conf
 COPY /config/nginx/neos.conf /etc/nginx/conf.d/default.conf
+COPY /config/nginx/nginx.conf /etc/nginx/conf.d/vars.conf
 
 RUN mkdir -p /run/nginx
+
+COPY /config/neos/Settings.yaml /data/Settings.yaml
 
 EXPOSE 80 22
 

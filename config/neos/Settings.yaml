@@ -1,0 +1,11 @@
+Neos:
+  Flow:
+    persistence:
+      backendOptions:
+        driver: pdo_mysql
+        dbname: '%env:MYSQL_DATABASE'
+        user: '%env:MYSQL_USER}'
+        password: '%env:MYSQL_PASSWORD}'
+        host: '%env:MYSQL_HOST}'
+  Imagine:
+    driver: Imagick

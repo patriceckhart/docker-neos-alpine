@@ -8,9 +8,15 @@ web:
   volumes:
     - /data
   environment:
-    - GITHUB_REPOSITORY=https://github.com/patriceckhart/NeosCMS-Boilerplate
-    - ADMIN_PASSWORD=password
+    #- GITHUB_REPOSITORY=https://github.com/patriceckhart/Inoovum-NeosFlow-Boilerplate
+    #- GITHUB_REPOSITORY=https://github.com/patriceckhart/Inoovum-NeosCMS-Boilerplate
+    - GITHUB_REPOSITORY=https://github.com/patriceckhart/NeosCMS-Boilerplate.git
     - GITHUB_USERNAME=patriceckhart
+    - ADMIN_PASSWORD=admin
+    - EDITOR_USERNAME=editor
+    - EDITOR_PASSWORD=editor
+    - EDITOR_FIRSTNAME=Max
+    - EDITOR_LASTNAME=Mustermann
     
 db:
   image: mariadb:latest
