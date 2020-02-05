@@ -46,6 +46,7 @@ COPY /config/nginx/nginx.conf /etc/nginx/conf.d/vars.conf
 RUN mkdir -p /run/nginx
 
 COPY /config/neos/Settings.yaml /data/Settings.yaml
+COPY /config/sshd/github-keys.sh /github-keys.sh
 
 EXPOSE 80 22
 
