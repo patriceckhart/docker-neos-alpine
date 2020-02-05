@@ -3,6 +3,25 @@ set -ex
 
 DIR="/data/neos"
 
+if [ -d "$DIR" ]; then
+  echo "PHP has already been configured."
+else
+  echo "PHP Configuration ..."
+  echo "date.timezone=${PHP_TIMEZONE:-UTC}" > $PHP_INI_DIR/conf.d/date_timezone.ini
+  echo "memory_limit=${PHP_MEMORY_LIMIT:-4096M}" > $PHP_INI_DIR/conf.d/memory_limit.ini
+  echo "upload_max_filesize=${PHP_UPLOAD_MAX_FILESIZE:-1024M}" > $PHP_INI_DIR/conf.d/upload_max_filesize.ini
+  echo "post_max_size=${PHP_UPLOAD_MAX_FILESIZE:-1024M}" > $PHP_INI_DIR/conf.d/post_max_size.ini
+  echo "allow_url_include=${PHP_ALLOW_URL_INCLUDE:-1}" > $PHP_INI_DIR/conf.d/allow_url_include.ini
+  echo "max_execution_time=${PHP_MAX_EXECUTION_TIME:-240}" > $PHP_INI_DIR/conf.d/max_execution_time.ini
+  echo "max_input_vars=${PHP_MAX_INPUT_VARS:-1500}" > $PHP_INI_DIR/conf.d/max_input_vars.ini
+  rm -rf /var/cache/apk/*
+  apk update && apk add tzdata
+  cp /usr/share/zoneinfo/${PHP_TIMEZONE:-UTC} /etc/localtime
+  apk del tzdata
+  rm -rf /var/cache/apk/*
+  echo "PHP configuration completed."
+fi
+
 /usr/local/sbin/php-fpm -y /usr/local/etc/php-fpm.conf -R -D
 chmod 066 /var/run/php-fpm.sock
 chown www-data:www-data /var/run/php-fpm.sock
@@ -71,6 +90,9 @@ fi
 
 /usr/sbin/sshd
 echo "SSH has started."
+
+/usr/sbin/crond -fS
+echo "crond has started."
 
 tail -f /dev/null
 #exec "$@"
