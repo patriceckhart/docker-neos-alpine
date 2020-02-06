@@ -2,6 +2,13 @@ FROM php:7.2-fpm-alpine3.10
 
 MAINTAINER Patric Eckhart <mail@patriceckhart.com>
 
+ENV DB_DATABASE db
+ENV DB_HOST db
+ENV DB_USER admin
+ENV DB_PASS pass
+ENV VERSION master
+ENV BASE_URI /
+
 RUN set -x \
 	&& apk update \
 	&& apk add bash \
@@ -47,7 +54,10 @@ COPY /config/nginx/nginx.conf /etc/nginx/conf.d/vars.conf
 RUN mkdir -p /run/nginx
 
 COPY /config/neos/Settings.yaml /data/Settings.yaml
+COPY /config/neos/set-settings.sh /set-settings.sh
 COPY /config/sshd/github-keys.sh /github-keys.sh
+COPY /config/neos/update-neos.sh /update-neos.sh
+COPY /config/neos/set-filepermissions.sh /set-filepermissions.sh
 
 EXPOSE 80 22
 

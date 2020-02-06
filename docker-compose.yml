@@ -7,16 +7,28 @@ web:
     - db:db
   volumes:
     - /data
+    # for Development on Mac
+    #- ./data:/data:cached
   environment:
     #- GITHUB_REPOSITORY=https://github.com/patriceckhart/Inoovum-NeosFlow-Boilerplate
     #- GITHUB_REPOSITORY=https://github.com/patriceckhart/Inoovum-NeosCMS-Boilerplate
     - GITHUB_REPOSITORY=https://github.com/patriceckhart/NeosCMS-Boilerplate.git
     - GITHUB_USERNAME=patriceckhart
+    # When using the following ENV, a database and a privileged user must already be created, otherwise the container will crash
+    - DB_DATABASE=db
+    - DB_USER=admin
+    - DB_PASS=pass
+    - DB_HOST=db
+    # Neos CMS site import
+    - SITE_PACKAGE=Raw.Site
+    # Neos CMS User
     - ADMIN_PASSWORD=admin
     - EDITOR_USERNAME=editor
     - EDITOR_PASSWORD=editor
-    - EDITOR_FIRSTNAME=Max
-    - EDITOR_LASTNAME=Mustermann
+    - EDITOR_FIRSTNAME=Editor
+    - EDITOR_LASTNAME=User
+    # If a nginx proxy is used
+    #- BASE_URI=/
     
 db:
   image: mariadb:latest
@@ -28,4 +40,7 @@ db:
     MYSQL_DATABASE: 'db'
     MYSQL_USER: 'admin'
     MYSQL_PASSWORD: 'pass'
-    MYSQL_RANDOM_ROOT_PASSWORD: 'yes'
+    MYSQL_ROOT_PASSWORD: 'root'
+    #MYSQL_RANDOM_ROOT_PASSWORD: 'yes'
+  ports:
+    - '3306:3306'
