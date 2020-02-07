@@ -27,8 +27,7 @@ web:
     - EDITOR_PASSWORD=editor
     - EDITOR_FIRSTNAME=Editor
     - EDITOR_LASTNAME=User
-    # If a nginx proxy is used
-    #- BASE_URI=/
+    - BASE_URI=http://localhost/
     
 db:
   image: mariadb:latest

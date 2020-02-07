@@ -2,11 +2,10 @@ FROM php:7.2-fpm-alpine3.10
 
 MAINTAINER Patric Eckhart <mail@patriceckhart.com>
 
-ENV DB_DATABASE db
-ENV DB_HOST db
-ENV DB_USER admin
-ENV DB_PASS pass
-ENV VERSION master
+ENV DB_DATABASE databasename
+ENV DB_HOST databasehost
+ENV DB_USER databaseuser
+ENV DB_PASS databasepassword
 ENV BASE_URI /
 
 RUN set -x \
