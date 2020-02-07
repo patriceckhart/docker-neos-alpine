@@ -2,6 +2,7 @@ FROM php:7.2-fpm-alpine3.10
 
 MAINTAINER Patric Eckhart <mail@patriceckhart.com>
 
+ENV DB_DATABASE db
 ENV DB_HOST db
 ENV DB_USER admin
 ENV DB_PASS pass
