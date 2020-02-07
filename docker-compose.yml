@@ -15,7 +15,7 @@ web:
     - GITHUB_REPOSITORY=https://github.com/patriceckhart/NeosCMS-Boilerplate.git
     - GITHUB_USERNAME=patriceckhart
     # When using the following ENV, a database and a privileged user must already be created, otherwise the container will crash
-    - DB_DATABASE=db
+    #- DB_DATABASE=db
     - DB_USER=admin
     - DB_PASS=pass
     - DB_HOST=db

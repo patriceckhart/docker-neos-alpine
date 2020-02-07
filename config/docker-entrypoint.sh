@@ -46,7 +46,7 @@ else
   chmod -R 775 /data
   echo "Neos installation completed."
 
-  if [ -z "$DB_DATABASE" ]; then
+  if [ -z "${DB_DATABASE}" ]; then
 
     echo "Neos must be installed manually."
     

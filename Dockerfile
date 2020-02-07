@@ -2,7 +2,6 @@ FROM php:7.2-fpm-alpine3.10
 
 MAINTAINER Patric Eckhart <mail@patriceckhart.com>
 
-ENV DB_DATABASE db
 ENV DB_HOST db
 ENV DB_USER admin
 ENV DB_PASS pass
@@ -36,6 +35,7 @@ RUN set -x \
 	&& rm -Rf /home/www-data \
 	&& sed -i -e "s#listen = 9000#listen = /var/run/php-fpm.sock#" /usr/local/etc/php-fpm.d/zz-docker.conf \
 	&& sed -i -e "s#sendfile on#sendfile off#" /etc/nginx/nginx.conf \
+	&& sed -i -e "s#client_max_body_size 1m#client_max_body_size 1024m#" /etc/nginx/nginx.conf \
 	&& sed -i -e "s#listen = 127.0.0.1:9000#listen = /var/run/php-fpm.sock#" /usr/local/etc/php-fpm.d/www.conf \
 	&& echo "clear_env = no" >> /usr/local/etc/php-fpm.d/zz-docker.conf \
 	&& echo "listen.owner = www-data" >> /usr/local/etc/php-fpm.d/zz-docker.conf \
