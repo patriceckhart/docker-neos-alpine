@@ -53,7 +53,7 @@ COPY /config/nginx/nginx.conf /etc/nginx/conf.d/vars.conf
 
 RUN mkdir -p /run/nginx
 
-COPY /config/neos/Settings.yaml /data/Settings.yaml
+COPY /config/neos/Settings.yaml /Settings.yaml
 COPY /config/neos/set-settings.sh /set-settings.sh
 COPY /config/sshd/github-keys.sh /github-keys.sh
 COPY /config/neos/update-neos.sh /update-neos.sh
