@@ -11,7 +11,7 @@ ENV BASE_URI /
 RUN set -x \
 	&& apk update \
 	&& apk add bash \
-	&& apk add nano git nginx tar curl mysql-client optipng freetype libjpeg-turbo-utils icu-dev openssh pwgen build-base && apk add --virtual libtool freetype-dev libpng-dev libjpeg-turbo-dev yaml-dev \
+	&& apk add nano git nginx tar curl mysql-client optipng freetype libjpeg-turbo-utils icu-dev openssh pwgen build-base && apk add --virtual libtool freetype-dev libpng-dev libjpeg-turbo-dev yaml-dev libssh2-dev \
 	&& docker-php-ext-configure gd \
 		--with-gd \
 		--with-freetype-dir=/usr/include/ \
@@ -44,6 +44,7 @@ RUN set -x \
 	&& chown 80:80 -R /var/lib/nginx
 
 RUN pecl install imagick-beta && docker-php-ext-enable --ini-name 20-imagick.ini imagick
+RUN pecl install ssh2-1.1.2 && echo "extension=ssh2.so" > /usr/local/etc/php/conf.d/ext-ssh2.ini && docker-php-ext-enable --ini-name ext-ssh2.ini ssh2
 
 RUN curl -o /tmp/composer-setup.php https://getcomposer.org/installer && php /tmp/composer-setup.php --no-ansi --install-dir=/usr/local/bin --filename=composer --version=1.9.2 && rm -rf /tmp/composer-setup.php
 

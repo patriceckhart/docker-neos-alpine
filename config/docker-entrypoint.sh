@@ -40,8 +40,6 @@ else
   chmod -R 775 /data
   echo "Wait until composer update is finished!"
   cd /data/neos && composer update
-  mv /Settings.yaml /data/neos/Configuration/Settings.yaml
-  su www-data -c "/set-settings.sh"
   chown -R www-data:www-data /data
   chmod -R 775 /data
   echo "Neos installation completed."
@@ -51,6 +49,11 @@ else
     echo "Neos must be installed manually."
     
   else
+
+    mv /Settings.yaml /data/neos/Configuration/Settings.yaml
+    su www-data -c "/set-settings.sh"
+    chown -R www-data:www-data /data
+    chmod -R 775 /data
 
     echo "Update database ..."
     cd /data/neos && ./flow doctrine:migrate
