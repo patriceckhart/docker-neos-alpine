@@ -2,8 +2,9 @@
 set -ex
 
 DIR="/data/neos"
+PHP="/php"
 
-if [ -d "$DIR" ]; then
+if [ -f "$PHP" ]; then
   echo "PHP has already been configured."
 else
   echo "PHP Configuration ..."
@@ -19,6 +20,7 @@ else
   cp /usr/share/zoneinfo/${PHP_TIMEZONE:-UTC} /etc/localtime
   apk del tzdata
   rm -rf /var/cache/apk/*
+  echo "php" > /php
   echo "PHP configuration completed."
 fi
 
@@ -34,12 +36,23 @@ if [ -d "$DIR" ]; then
 else
   echo "Downloading Neos ..."
   mkdir -p /data/neos
-  git clone $GITHUB_REPOSITORY /data/neos
+
+  if [ "$GITHUB_TOKEN" == "nogittoken" ]; then
+
+    git clone $GITHUB_REPOSITORY /data/neos
+
+  else
+
+    git clone https://$GITHUB_USERNAME:$GITHUB_TOKEN@github.com/$GITHUB_USERNAME/$GITHUB_REPOSITORY /data/neos
+    composer config -g github-oauth.github.com $GITHUB_TOKEN
+  
+  fi
+
   echo "Installing Neos ..."
   chown -R www-data:www-data /data
   chmod -R 775 /data
   echo "Wait until composer update is finished!"
-  cd /data/neos && composer update
+  cd /data/neos && composer update --no-interaction
   chown -R www-data:www-data /data
   chmod -R 775 /data
   echo "Neos installation completed."
@@ -60,18 +73,30 @@ else
     cd /data/neos && ./flow doctrine:update
     echo "Database updated."
 
-    echo "Import site ..."
-    cd /data/neos && ./flow site:import $SITE_PACKAGE
-    echo "Site imported."
+    if [ "$SITE_PACKAGE" != "nosite" ]; then
 
-    echo "Create user ..."
-    cd /data/neos && ./flow user:create admin $ADMIN_PASSWORD Admin User
-    cd /data/neos && ./flow user:addrole admin Neos.Neos:Administrator
-    echo "admin created."
+      echo "Import site ..."
+      cd /data/neos && ./flow site:import $SITE_PACKAGE
+      echo "Site imported."
 
-    cd /data/neos && ./flow user:create $EDITOR_USERNAME $EDITOR_PASSWORD $EDITOR_FIRSTNAME $EDITOR_LASTNAME
-    cd /data/neos && ./flow user:addrole $EDITOR_USERNAME Neos.Neos:Editor
-    echo "editor created."
+    fi
+
+    if [ "$ADMIN_PASSWORD" != "noadmpwd" ]; then
+
+      echo "Create user ..."
+      cd /data/neos && ./flow user:create admin $ADMIN_PASSWORD Admin User
+      cd /data/neos && ./flow user:addrole admin Neos.Neos:Administrator
+      echo "admin created."
+
+    fi
+
+    if [ "$EDITOR_USERNAME" != "noeditorusr" ] && [ "$EDITOR_PASSWORD" != "noeditorpwd" ] ; then
+
+      cd /data/neos && ./flow user:create $EDITOR_USERNAME $EDITOR_PASSWORD $EDITOR_FIRSTNAME $EDITOR_LASTNAME
+      cd /data/neos && ./flow user:addrole $EDITOR_USERNAME Neos.Neos:Editor
+      echo "editor created."
+
+    fi
 
   fi
 

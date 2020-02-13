@@ -8,6 +8,14 @@ ENV DB_USER databaseuser
 ENV DB_PASS databasepassword
 ENV BASE_URI /
 
+ENV SITE_PACKAGE nosite
+ENV ADMIN_PASSWORD noadmpwd
+ENV EDITOR_USERNAME noeditorusr
+ENV EDITOR_PASSWORD noeditorpwd
+
+ENV GITHUB_TOKEN nogittoken
+
+
 RUN set -x \
 	&& apk update \
 	&& apk add bash \

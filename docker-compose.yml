@@ -13,6 +13,14 @@ web:
     #- GITHUB_REPOSITORY=https://github.com/patriceckhart/Inoovum-NeosFlow-Boilerplate
     #- GITHUB_REPOSITORY=https://github.com/patriceckhart/Inoovum-NeosCMS-Boilerplate
     - GITHUB_REPOSITORY=https://github.com/patriceckhart/NeosCMS-Boilerplate.git
+    #
+    # For public repositories do that
+    # - GITHUB_REPOSITORY=https://github.com/inoovum/InoovumBoilerplate.git
+    #
+    # For private repositories do that
+    # - GITHUB_REPOSITORY=InoovumBoilerplate.git
+    # - GITHUB_USERNAME=inoovum
+    # - GITHUB_TOKEN=youtgithubtoken
     - GITHUB_USERNAME=patriceckhart
     # When using the following ENV, a database and a privileged user must already be created, otherwise the container will crash
     - DB_DATABASE=db
@@ -22,12 +30,13 @@ web:
     # Neos CMS site import
     - SITE_PACKAGE=Raw.Site
     # Neos CMS User
-    - ADMIN_PASSWORD=admin
-    - EDITOR_USERNAME=editor
-    - EDITOR_PASSWORD=editor
-    - EDITOR_FIRSTNAME=Editor
-    - EDITOR_LASTNAME=User
+    - ADMIN_PASSWORD=password
+    #- EDITOR_USERNAME=editor
+    #- EDITOR_PASSWORD=editor
+    #- EDITOR_FIRSTNAME=Editor
+    #- EDITOR_LASTNAME=User
     - BASE_URI=http://localhost/
+    - CONTAINERNAME=web
     
 db:
   image: mariadb:latest
