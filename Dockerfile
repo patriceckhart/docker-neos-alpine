@@ -19,7 +19,7 @@ ENV GITHUB_TOKEN nogittoken
 RUN set -x \
 	&& apk update \
 	&& apk add bash \
-	&& apk add nano git nginx tar curl mysql-client optipng freetype libjpeg-turbo-utils icu-dev openssh pwgen build-base && apk add --virtual libtool freetype-dev libpng-dev libjpeg-turbo-dev yaml-dev libssh2-dev \
+	&& apk add nano git nginx tar curl postfix mysql-client optipng freetype libjpeg-turbo-utils icu-dev openssh pwgen build-base && apk add --virtual libtool freetype-dev libpng-dev libjpeg-turbo-dev yaml-dev libssh2-dev \
 	&& docker-php-ext-configure gd \
 		--with-gd \
 		--with-freetype-dir=/usr/include/ \

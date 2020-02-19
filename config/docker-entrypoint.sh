@@ -138,6 +138,8 @@ else
   done
 fi
 
+postfix start
+
 /usr/sbin/sshd
 echo "SSH has started."
 
