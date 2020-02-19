@@ -1,7 +1,7 @@
 #!/bin/bash
 set -ex
 
-DIR="/data/neos"
+DIR="/data/neos/Web"
 PHP="/php"
 
 if [ -f "$PHP" ]; then
