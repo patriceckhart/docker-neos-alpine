@@ -1,6 +1,6 @@
 #!/bin/bash
 
-cd /data/neos && composer update
+cd /data/neos && composer update --no-interaction
 
 cd /data/neos && ./flow flow:core:setfilepermissions
 
