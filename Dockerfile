@@ -15,6 +15,7 @@ ENV EDITOR_PASSWORD noeditorpwd
 
 ENV GITHUB_TOKEN nogittoken
 
+ENV UPDATEPACKAGES non
 
 RUN set -x \
 	&& apk update \

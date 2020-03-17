@@ -32,6 +32,12 @@ if [ -d "$DIR" ]; then
   
   su www-data -c "/set-settings.sh"
 
+  if [ "$GITHUB_TOKEN" != "nogittoken" ]; then
+
+    composer config -g github-oauth.github.com $GITHUB_TOKEN
+
+  fi
+
   echo "Neos is already installed."
 else
   echo "Downloading Neos ..."
@@ -136,6 +142,24 @@ else
     echo "user: $user"
     su www-data -c "/github-keys.sh $user"
   done
+fi
+
+if [ "$UPDATEPACKAGES" == "daily" ]; then
+
+  cp /update-neos.sh /etc/periodic/daily/update-neos.sh
+
+fi
+
+if [ "$UPDATEPACKAGES" == "weekly" ]; then
+
+  cp /update-neos.sh /etc/periodic/weekly/update-neos.sh
+
+fi
+
+if [ "$UPDATEPACKAGES" == "monthly" ]; then
+
+  cp /update-neos.sh /etc/periodic/monthly/update-neos.sh
+
 fi
 
 postfix start
