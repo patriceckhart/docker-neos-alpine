@@ -162,6 +162,9 @@ if [ "$UPDATEPACKAGES" == "monthly" ]; then
 
 fi
 
+cp /update-neos.sh /usr/local/bin/updateneos
+cp /set-filepermissions.sh /usr/local/bin/setfilepermissions
+
 postfix start
 
 /usr/sbin/sshd
