@@ -54,6 +54,7 @@ RUN set -x \
 
 RUN pecl install imagick-beta && docker-php-ext-enable --ini-name 20-imagick.ini imagick
 RUN pecl install ssh2-1.1.2 && echo "extension=ssh2.so" > /usr/local/etc/php/conf.d/ext-ssh2.ini && docker-php-ext-enable --ini-name ext-ssh2.ini ssh2
+RUN pecl install yaml && echo "extension=yaml.so" > /usr/local/etc/php/conf.d/ext-yaml.ini && docker-php-ext-enable --ini-name ext-yaml.ini yaml
 
 RUN curl -o /tmp/composer-setup.php https://getcomposer.org/installer && php /tmp/composer-setup.php --no-ansi --install-dir=/usr/local/bin --filename=composer --version=1.10.1 && rm -rf /tmp/composer-setup.php
 
