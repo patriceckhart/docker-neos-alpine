@@ -12,6 +12,7 @@ ENV SITE_PACKAGE nosite
 ENV ADMIN_PASSWORD noadmpwd
 ENV EDITOR_USERNAME noeditorusr
 ENV EDITOR_PASSWORD noeditorpwd
+ENV EDITOR_ROLE norole
 
 ENV GITHUB_TOKEN nogittoken
 

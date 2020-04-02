@@ -99,7 +99,17 @@ else
     if [ "$EDITOR_USERNAME" != "noeditorusr" ] && [ "$EDITOR_PASSWORD" != "noeditorpwd" ] ; then
 
       cd /data/neos && ./flow user:create $EDITOR_USERNAME $EDITOR_PASSWORD $EDITOR_FIRSTNAME $EDITOR_LASTNAME
-      cd /data/neos && ./flow user:addrole $EDITOR_USERNAME Neos.Neos:Editor
+
+      if [ "$EDITOR_ROLE" != "norole" ] ; then
+
+        cd /data/neos && ./flow user:addrole $EDITOR_USERNAME $EDITOR_ROLE
+
+      else
+
+        cd /data/neos && ./flow user:addrole $EDITOR_USERNAME Neos.Neos:Editor
+
+      fi
+      
       echo "editor created."
 
     fi
