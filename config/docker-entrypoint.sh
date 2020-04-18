@@ -29,8 +29,6 @@ chmod 066 /var/run/php-fpm.sock
 chown www-data:www-data /var/run/php-fpm.sock
 
 if [ -d "$DIR" ]; then
-  
-  su www-data -c "/set-settings.sh"
 
   if [ "$GITHUB_TOKEN" != "nogittoken" ]; then
 
@@ -175,6 +173,12 @@ fi
 cp /update-neos.sh /usr/local/bin/updateneos
 cp /set-filepermissions.sh /usr/local/bin/setfilepermissions
 
+cp /flush-cache.sh /usr/local/bin/flushcache
+cp /flush-cache-dev.sh /usr/local/bin/flushcachedev
+cp /flush-cache-prod.sh /usr/local/bin/flushcacheprod
+
+cp /pull-app.sh /usr/local/bin/pullapp
+
 postfix start
 
 /usr/sbin/sshd
@@ -182,6 +186,7 @@ echo "SSH has started."
 
 /usr/sbin/crond -fS
 echo "crond has started."
+echo "Container is up und running."
 
 tail -f /dev/null
 #exec "$@"

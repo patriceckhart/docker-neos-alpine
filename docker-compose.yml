@@ -1,59 +1,41 @@
 web:
-  build: .
+  image: patriceckhart/docker-neos-alpine
   ports:
-    - '80:80'
+    - '80'
     - '22:22'
-    - '25:25'
   links:
-    - db:db
+    - mariadb:mariadb
   volumes:
-    - ./data:/data:cached
-    # for Development on Mac
-    #- ./data:/data:cached
+    - /data
   environment:
-    #- GITHUB_REPOSITORY=https://github.com/patriceckhart/Inoovum-NeosFlow-Boilerplate
-    #- GITHUB_REPOSITORY=https://github.com/patriceckhart/Inoovum-NeosCMS-Boilerplate
-    - GITHUB_REPOSITORY=https://github.com/patriceckhart/NeosCMS-Boilerplate.git
-    #- GITHUB_REPOSITORY=https://inoovum@github.com:inoovum/InoovumBoilerplate
-    #
-    # For public repositories do that
-    # - GITHUB_REPOSITORY=https://github.com/inoovum/InoovumBoilerplate.git
-    #
-    # For private repositories do that
-    # - GITHUB_REPOSITORY=InoovumBoilerplate.git
-    # - GITHUB_USERNAME=inoovum
-    # - GITHUB_TOKEN=youtgithubtoken
-    #- GITHUB_USERNAME=inoovum
-    - GITHUB_USERNAME=patriceckhart
+    # If you use a GITHUB_TOKEN, just enter YourGitRepo.git as GITHUB_REPOSITORY
+    - GITHUB_REPOSITORY=https://github.com/yourgitaccount/YourGitRepo
+    # - GITHUB_REPOSITORY=YourGitRepo.git
+    #- GITHUB_TOKEN=9a72f0aca3c52463b17464k2277833x58037ff68
+    - GITHUB_USERNAME=yourgitusername
     # When using the following ENV, a database and a privileged user must already be created, otherwise the container will crash
-    - DB_DATABASE=db
+    - DB_DATABASE=neos
     - DB_USER=admin
     - DB_PASS=pass
-    - DB_HOST=db
+    - DB_HOST=mariadb
     # Neos CMS site import
-    #- SITE_PACKAGE=Inoovum.Site
-    - SITE_PACKAGE=Raw.Site
+    - SITE_PACKAGE=Your.Site
     # Neos CMS User
     - ADMIN_PASSWORD=password
-    #- EDITOR_USERNAME=editor
-    #- EDITOR_PASSWORD=editor
-    #- EDITOR_FIRSTNAME=Editor
-    #- EDITOR_LASTNAME=User
-    - BASE_URI=http://localhost/
-    - CONTAINERNAME=web
-    
-db:
+    #- CONTAINERNAME=yourneos
+    #- VIRTUAL_HOST=dev.neos.local
+
+mariadb:
   image: mariadb:latest
   expose:
     - 3306
   volumes:
     - /var/lib/data
   environment:
-    MYSQL_DATABASE: 'db'
+    MYSQL_DATABASE: 'neos'
     MYSQL_USER: 'admin'
     MYSQL_PASSWORD: 'pass'
     MYSQL_ROOT_PASSWORD: 'root'
-    #MYSQL_RANDOM_ROOT_PASSWORD: 'yes'
   ports:
     - '3306:3306'
   command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci

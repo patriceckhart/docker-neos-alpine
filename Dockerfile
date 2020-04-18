@@ -1,4 +1,4 @@
-FROM php:7.2-fpm-alpine3.10
+FROM php:7.3-fpm-alpine3.10
 
 MAINTAINER Patric Eckhart <mail@patriceckhart.com>
 
@@ -54,7 +54,13 @@ RUN set -x \
 	&& chown 80:80 -R /var/lib/nginx
 
 RUN pecl install imagick-beta && docker-php-ext-enable --ini-name 20-imagick.ini imagick
-RUN pecl install ssh2-1.1.2 && echo "extension=ssh2.so" > /usr/local/etc/php/conf.d/ext-ssh2.ini && docker-php-ext-enable --ini-name ext-ssh2.ini ssh2
+
+RUN cd /tmp \
+    && git clone https://git.php.net/repository/pecl/networking/ssh2.git \
+    && cd /tmp/ssh2/ \
+    && .travis/build.sh \
+    && docker-php-ext-enable ssh2
+
 RUN pecl install yaml && echo "extension=yaml.so" > /usr/local/etc/php/conf.d/ext-yaml.ini && docker-php-ext-enable --ini-name ext-yaml.ini yaml
 
 RUN curl -o /tmp/composer-setup.php https://getcomposer.org/installer && php /tmp/composer-setup.php --no-ansi --install-dir=/usr/local/bin --filename=composer --version=1.10.1 && rm -rf /tmp/composer-setup.php
@@ -72,6 +78,12 @@ COPY /config/neos/set-settings.sh /set-settings.sh
 COPY /config/sshd/github-keys.sh /github-keys.sh
 COPY /config/neos/update-neos.sh /update-neos.sh
 COPY /config/neos/set-filepermissions.sh /set-filepermissions.sh
+
+COPY /config/neos/flush-cache.sh /flush-cache.sh
+COPY /config/neos/flush-cache-dev.sh /flush-cache-dev.sh
+COPY /config/neos/flush-cache-prod.sh /flush-cache-prod.sh
+
+COPY /config/pipeline/pull-app.sh /pull-app.sh
 
 EXPOSE 80 22
 
