@@ -37,7 +37,7 @@ This image supports following environment variable for automatically configuring
 
 ### Example docker-compose.yml configuration ###
 
-`
+```
 web:
   image: patriceckhart/docker-neos-alpine
   ports:
@@ -79,7 +79,7 @@ mariadb:
   ports:
     - '3306:3306'
   command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
-`
+```
 
 ### Helpful cli scripts ###
 
