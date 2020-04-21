@@ -1,5 +1,5 @@
 ## patriceckhart/docker-neos-alpine ##
-Opinionated Neos CMS docker image based on Alpine linux with nginx + php-fpm 7.3, packing everything needed for development and production usage of Neos.
+Neos CMS docker image based on Alpine linux with nginx + php-fpm 7.3, packing everything needed for development and production usage of Neos.
 
 #### The image does a few things: ####
 Automatically install and provision a Neos CMS website or a Neos Flow application, based on environment vars documented below
