@@ -2,6 +2,8 @@
 
 echo "Start pulling the git repository ... "
 
+git reset --hard
+
 if [ "$GITHUB_TOKEN" == "nogittoken" ]; then
 	cd /data/neos && git pull $GITHUB_REPOSITORY
 else
