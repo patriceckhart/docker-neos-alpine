@@ -38,6 +38,9 @@ if [ -d "$DIR" ]; then
 
   echo "Neos is already installed."
 else
+
+  composer clear-cache --no-interaction
+
   echo "Downloading Neos ..."
   mkdir -p /data/neos
 
@@ -182,10 +185,13 @@ cp /pull-app.sh /usr/local/bin/pullapp
 postfix start
 
 /usr/sbin/sshd
+
 echo "SSH has started."
 
 /usr/sbin/crond -fS
+
 echo "crond has started."
+
 echo "Container is up und running."
 
 tail -f /dev/null
