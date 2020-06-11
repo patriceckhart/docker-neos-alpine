@@ -1,4 +1,4 @@
-FROM php:7.3-fpm-alpine3.10
+FROM php:7.4-fpm-alpine3.11
 
 MAINTAINER Patric Eckhart <mail@patriceckhart.com>
 
@@ -22,16 +22,11 @@ RUN set -x \
 	&& apk update \
 	&& apk add bash \
 	&& apk add nano git nginx tar curl postfix mysql-client optipng freetype libjpeg-turbo-utils icu-dev openssh pwgen build-base && apk add --virtual libtool freetype-dev libpng-dev libjpeg-turbo-dev yaml-dev libssh2-dev \
-	&& docker-php-ext-configure gd \
-		--with-gd \
-		--with-freetype-dir=/usr/include/ \
-		--with-png-dir=/usr/include/ \
-		--with-jpeg-dir=/usr/include/ \
+	&& docker-php-ext-configure gd --with-freetype --with-jpeg \
 	&& docker-php-ext-install \
 		gd \
 		pdo \
 		pdo_mysql \
-		mbstring \
 		opcache \
 		intl \
 		exif \
@@ -63,7 +58,7 @@ RUN cd /tmp \
 
 RUN pecl install yaml && echo "extension=yaml.so" > /usr/local/etc/php/conf.d/ext-yaml.ini && docker-php-ext-enable --ini-name ext-yaml.ini yaml
 
-RUN curl -o /tmp/composer-setup.php https://getcomposer.org/installer && php /tmp/composer-setup.php --no-ansi --install-dir=/usr/local/bin --filename=composer --version=1.10.1 && rm -rf /tmp/composer-setup.php
+RUN curl -o /tmp/composer-setup.php https://getcomposer.org/installer && php /tmp/composer-setup.php --no-ansi --install-dir=/usr/local/bin --filename=composer --version=1.10.7 && rm -rf /tmp/composer-setup.php
 
 RUN echo 'StrictHostKeyChecking no' >> /etc/ssh/ssh_config
 
@@ -84,6 +79,8 @@ COPY /config/neos/flush-cache-dev.sh /flush-cache-dev.sh
 COPY /config/neos/flush-cache-prod.sh /flush-cache-prod.sh
 
 COPY /config/pipeline/pull-app.sh /pull-app.sh
+
+COPY /config/etc/motd /etc/motd
 
 EXPOSE 80 22
 
