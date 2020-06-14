@@ -29,7 +29,6 @@ fi
 chmod 066 /var/run/php-fpm.sock
 chown www-data:www-data /var/run/php-fpm.sock
 
-# if [ -d "$DIR" ]; then
 if [ -f "$FILE" ]; then
 
   if [ "$GITHUB_TOKEN" != "nogittoken" ]; then
@@ -183,6 +182,8 @@ cp /flush-cache-dev.sh /usr/local/bin/flushcachedev
 cp /flush-cache-prod.sh /usr/local/bin/flushcacheprod
 
 cp /pull-app.sh /usr/local/bin/pullapp
+
+chown -Rf nginx:nginx /var/lib/nginx
 
 postfix start
 
