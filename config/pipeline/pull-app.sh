@@ -2,15 +2,13 @@
 
 echo "Start pulling the git repository ... "
 
-git reset --hard
+cd /data/neos && git reset --hard
 
 if [ "$GITHUB_TOKEN" == "nogittoken" ]; then
 	cd /data/neos && git pull $GITHUB_REPOSITORY
 else
 	cd /data/neos && git pull https://$GITHUB_USERNAME:$GITHUB_TOKEN@github.com/$GITHUB_USERNAME/$GITHUB_REPOSITORY
 fi
-
-cd /data/neos && composer clear-cache --no-interaction
 
 cd /data/neos && composer update --no-interaction
 
