@@ -91,8 +91,8 @@ mariadb:
 |flushcachedev|Flush all development caches|
 |flushcacheprod|Flush all production caches|
 
-#### For development (only works with docker exec ...) ####
+#### For development (only works with docker exec ... or kubectl exec ...) ####
 
 | CLI command | Description |
 |---------|-------------|
-|pullapp|Pulls latest code from git, does composer update|
+|pullapp|Pulls latest code from git repository|

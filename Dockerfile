@@ -79,6 +79,7 @@ COPY /config/neos/flush-cache-dev.sh /flush-cache-dev.sh
 COPY /config/neos/flush-cache-prod.sh /flush-cache-prod.sh
 
 COPY /config/pipeline/pull-app.sh /pull-app.sh
+RUN chmod 755 /pull-app.sh
 
 COPY /config/etc/motd /etc/motd
 
