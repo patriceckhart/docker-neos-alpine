@@ -39,7 +39,8 @@ RUN set -x \
 	&& adduser -u 80 -G www-data -s /bin/bash -D www-data -h /data \
 	&& rm -Rf /home/www-data \
 	&& sed -i -e "s#listen = 9000#listen = /var/run/php-fpm.sock#" /usr/local/etc/php-fpm.d/zz-docker.conf \
-	&& sed -i -e "s#sendfile on#sendfile off#" /etc/nginx/nginx.conf \
+	&& sed -i -e "s#keepalive_timeout 65#keepalive_timeout 75#" /etc/nginx/nginx.conf \
+	&& sed -i -e "s#gzip_vary on#gzip_vary off#" /etc/nginx/nginx.conf \
 	&& sed -i -e "s#client_max_body_size 1m#client_max_body_size 1024m#" /etc/nginx/nginx.conf \
 	&& sed -i -e "s#listen = 127.0.0.1:9000#listen = /var/run/php-fpm.sock#" /usr/local/etc/php-fpm.d/www.conf \
 	&& echo "clear_env = no" >> /usr/local/etc/php-fpm.d/zz-docker.conf \
@@ -72,6 +73,7 @@ COPY /config/neos/Settings.yaml /Settings.yaml
 COPY /config/neos/set-settings.sh /set-settings.sh
 COPY /config/sshd/github-keys.sh /github-keys.sh
 COPY /config/neos/update-neos.sh /update-neos.sh
+COPY /config/neos/update-neos-silent.sh /update-neos-silent.sh
 COPY /config/neos/set-filepermissions.sh /set-filepermissions.sh
 
 COPY /config/neos/flush-cache.sh /flush-cache.sh
@@ -80,6 +82,8 @@ COPY /config/neos/flush-cache-prod.sh /flush-cache-prod.sh
 
 COPY /config/pipeline/pull-app.sh /pull-app.sh
 RUN chmod 755 /pull-app.sh
+
+RUN chmod 755 /update-neos-silent.sh
 
 COPY /config/etc/motd /etc/motd
 

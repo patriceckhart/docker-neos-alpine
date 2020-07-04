@@ -175,6 +175,7 @@ if [ "$UPDATEPACKAGES" == "monthly" ]; then
 fi
 
 cp /update-neos.sh /usr/local/bin/updateneos
+cp /update-neos-silent.sh /usr/local/bin/updateneossilent
 cp /set-filepermissions.sh /usr/local/bin/setfilepermissions
 
 cp /flush-cache.sh /usr/local/bin/flushcache
