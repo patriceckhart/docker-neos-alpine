@@ -49,6 +49,10 @@ RUN set -x \
 	&& echo "listen.mode = 0660" >> /usr/local/etc/php-fpm.d/zz-docker.conf \
 	&& chown 80:80 -R /var/lib/nginx
 
+RUN apk add --no-cache redis
+
+RUN pecl install redis && docker-php-ext-enable redis
+
 RUN pecl install imagick-beta && docker-php-ext-enable --ini-name 20-imagick.ini imagick
 
 RUN cd /tmp \
