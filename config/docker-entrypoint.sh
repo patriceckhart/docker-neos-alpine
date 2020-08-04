@@ -29,6 +29,20 @@ fi
 chmod 066 /var/run/php-fpm.sock
 chown www-data:www-data /var/run/php-fpm.sock
 
+if [ "$PERSISTENT_RESOURCES_FALLBACK_BASE_URI" != "non" ]; then
+
+  if [ -f "$FILE" ]; then
+
+    echo "Resource fallback uri has already been added."
+
+  else
+
+    sed -i -e "s#8.8.8.8;#8.8.8.8;proxy_pass $PERSISTENT_RESOURCES_FALLBACK_BASE_URI;#" /etc/nginx/conf.d/default.conf
+
+  fi
+
+fi
+
 if [ -f "$FILE" ]; then
 
   if [ "$GITHUB_TOKEN" != "nogittoken" ]; then

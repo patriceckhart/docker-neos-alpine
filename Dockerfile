@@ -18,6 +18,8 @@ ENV GITHUB_TOKEN nogittoken
 
 ENV UPDATEPACKAGES non
 
+ENV PERSISTENT_RESOURCES_FALLBACK_BASE_URI non
+
 RUN set -x \
 	&& apk update \
 	&& apk add bash \
@@ -63,7 +65,7 @@ RUN cd /tmp \
 
 RUN pecl install yaml && echo "extension=yaml.so" > /usr/local/etc/php/conf.d/ext-yaml.ini && docker-php-ext-enable --ini-name ext-yaml.ini yaml
 
-RUN curl -o /tmp/composer-setup.php https://getcomposer.org/installer && php /tmp/composer-setup.php --no-ansi --install-dir=/usr/local/bin --filename=composer --version=1.10.7 && rm -rf /tmp/composer-setup.php
+RUN curl -o /tmp/composer-setup.php https://getcomposer.org/installer && php /tmp/composer-setup.php --no-ansi --install-dir=/usr/local/bin --filename=composer --version=1.10.9 && rm -rf /tmp/composer-setup.php
 
 RUN echo 'StrictHostKeyChecking no' >> /etc/ssh/ssh_config
 

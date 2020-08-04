@@ -10,8 +10,6 @@ else
 	cd /data/neos && git pull https://$GITHUB_USERNAME:$GITHUB_TOKEN@github.com/$GITHUB_USERNAME/$GITHUB_REPOSITORY
 fi
 
-# cd /data/neos && composer update --no-interaction
-
 cd /data/neos && ./flow flow:core:setfilepermissions
 
 cd /data/neos && ./flow flow:package:rescan

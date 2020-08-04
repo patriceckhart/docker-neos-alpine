@@ -34,6 +34,7 @@ This image supports following environment variable for automatically configuring
 |CONTAINERNAME|Container name for different processes around the container|
 |VIRTUAL_HOST|Virtual host if a Nginx proxy is used|
 |UPDATEPACKAGES|`daily`, `weekly`, `monthly` Auto-Update Neos installation including all packages with composer update|
+|PERSISTENT_RESOURCES_FALLBACK_BASE_URI|`http://foo.bar` The live url to load locally unavailable resources|
 
 ### Example docker-compose.yml configuration ###
 
@@ -64,6 +65,7 @@ web:
     - ADMIN_PASSWORD=password
     #- CONTAINERNAME=yourneos
     #- VIRTUAL_HOST=dev.neos.local
+    #- PERSISTENT_RESOURCES_FALLBACK_BASE_URI=http://foo.bar
 
 mariadb:
   image: mariadb:latest
