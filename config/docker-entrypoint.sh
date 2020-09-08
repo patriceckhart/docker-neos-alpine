@@ -134,6 +134,39 @@ else
 
 fi
 
+CRONDIR="/data/cron/"
+
+if [ -d "$CRONDIR" ]; then
+  
+  echo "Cron directories exist."
+
+else
+
+  echo "Create cron directories ..."
+
+  mkdir -p /data/cron
+  mkdir -p /data/cron/15min
+  mkdir -p /data/cron/hourly
+  mkdir -p /data/cron/daily
+  mkdir -p /data/cron/weekly
+  mkdir -p /data/cron/monthly
+
+  echo "Cron directories created."
+
+fi
+
+rm -rf /etc/periodic/15min
+rm -rf /etc/periodic/hourly
+rm -rf /etc/periodic/daily
+rm -rf /etc/periodic/weekly
+rm -rf /etc/periodic/monthly
+
+ln -s /data/cron/15min /etc/periodic/15min
+ln -s /data/cron/15min /etc/periodic/hourly
+ln -s /data/cron/15min /etc/periodic/daily
+ln -s /data/cron/15min /etc/periodic/weekly
+ln -s /data/cron/15min /etc/periodic/monthly
+
 nginx
 echo "nginx has started."
 

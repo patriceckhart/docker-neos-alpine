@@ -2,8 +2,7 @@
 Neos CMS docker image based on Alpine linux with nginx + php-fpm 7.4 🚀, packing everything needed for development and production usage of Neos.
 
 #### The image does a few things: ####
-Automatically install and provision a Neos CMS website or a Neos Flow application, based on environment vars documented below
-Pack a few useful things like git, automated update mechanism + a simple ci-pipeline, etc.
+Automatically install and provision a Neos CMS website or a Neos Flow application, based on environment vars documented below. Pack a few useful things like git, redis, automated update mechanism + a simple ci-pipeline, etc.
 
 ### Usage ###
 This image supports following environment variable for automatically configuring Neos at container startup:
@@ -83,7 +82,26 @@ mariadb:
   command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
 ```
 
-### Helpful cli scripts ###
+### Cronjobs ###
+
+In `/data/cron` there are folders named `15min`, `hourly`, `daily`, `weekly` and `monthly`. Files can be stored in this folder in the following scheme: `100-backup`, `200-update`, `300-customname`, ...
+
+#### Example `100-backup` in `/data/cron/daily` ####
+
+```
+#!/bin/sh
+
+cd /data/neos && ./flow backup:create
+```
+Don't forget: `chmod 755 100-backup`
+
+### SSH Access ###
+
+For development with your favorite IDE you can ssh into the container:
+
+`ssh www-data@yourvirtualhost.local -p 22 -i ~/.ssh/yourPrivateSshKeyFile`
+
+### Helpful cli scripts ### (usage: docker exec ... or kubectl exec ...)
 
 | CLI command | Description |
 |---------|-------------|
