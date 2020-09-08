@@ -162,10 +162,10 @@ rm -rf /etc/periodic/weekly
 rm -rf /etc/periodic/monthly
 
 ln -s /data/cron/15min /etc/periodic/15min
-ln -s /data/cron/15min /etc/periodic/hourly
-ln -s /data/cron/15min /etc/periodic/daily
-ln -s /data/cron/15min /etc/periodic/weekly
-ln -s /data/cron/15min /etc/periodic/monthly
+ln -s /data/cron/hourly /etc/periodic/hourly
+ln -s /data/cron/daily /etc/periodic/daily
+ln -s /data/cron/weekly /etc/periodic/weekly
+ln -s /data/cron/monthly /etc/periodic/monthly
 
 nginx
 echo "nginx has started."
