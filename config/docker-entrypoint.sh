@@ -145,6 +145,7 @@ else
   echo "Create cron directories ..."
 
   mkdir -p /data/cron
+  mkdir -p /data/cron/1min
   mkdir -p /data/cron/15min
   mkdir -p /data/cron/hourly
   mkdir -p /data/cron/daily
@@ -155,12 +156,14 @@ else
 
 fi
 
+rm -rf /etc/periodic/1min
 rm -rf /etc/periodic/15min
 rm -rf /etc/periodic/hourly
 rm -rf /etc/periodic/daily
 rm -rf /etc/periodic/weekly
 rm -rf /etc/periodic/monthly
 
+ln -s /data/cron/1min /etc/periodic/1min
 ln -s /data/cron/15min /etc/periodic/15min
 ln -s /data/cron/hourly /etc/periodic/hourly
 ln -s /data/cron/daily /etc/periodic/daily
@@ -205,19 +208,19 @@ fi
 
 if [ "$UPDATEPACKAGES" == "daily" ]; then
 
-  cp /update-neos.sh /etc/periodic/daily/update-neos.sh
+  cp /update-neos.sh /data/cron/daily/200-updateneos
 
 fi
 
 if [ "$UPDATEPACKAGES" == "weekly" ]; then
 
-  cp /update-neos.sh /etc/periodic/weekly/update-neos.sh
+  cp /update-neos.sh /data/cron/weekly/200-updateneos
 
 fi
 
 if [ "$UPDATEPACKAGES" == "monthly" ]; then
 
-  cp /update-neos.sh /etc/periodic/monthly/update-neos.sh
+  cp /update-neos.sh /data/cron/monthly/200-updateneos
 
 fi
 
@@ -230,6 +233,7 @@ cp /flush-cache-dev.sh /usr/local/bin/flushcachedev
 cp /flush-cache-prod.sh /usr/local/bin/flushcacheprod
 
 cp /pull-app.sh /usr/local/bin/pullapp
+cp /pull-app-silent.sh /usr/local/bin/pullappsilent
 
 chown -Rf nginx:nginx /var/lib/nginx
 

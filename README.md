@@ -84,7 +84,7 @@ mariadb:
 
 ### Cronjobs ###
 
-In `/data/cron` there are folders named `15min`, `hourly`, `daily`, `weekly` and `monthly`. Files can be stored in this folder in the following scheme: `100-backup`, `200-update`, `300-customname`, ...
+In `/data/cron` there are folders named `1min`, `15min`, `hourly`, `daily`, `weekly` and `monthly`. Files can be stored in this folder in the following scheme: `100-backup`, `200-update`, `300-customname`, ...
 
 #### Example `100-backup` in `/data/cron/daily` ####
 
@@ -93,13 +93,13 @@ In `/data/cron` there are folders named `15min`, `hourly`, `daily`, `weekly` and
 
 cd /data/neos && ./flow backup:create
 ```
-Don't forget: `chmod 755 100-backup`
+Don't forget: `chmod 775 100-backup`
 
 ### SSH Access ###
 
 For development with your favorite IDE you can ssh into the container:
 
-`ssh www-data@yourvirtualhost.local -p 22 -i ~/.ssh/yourPrivateSshKeyFile`
+`ssh www-data@yourvirtualhost.local -p <portnumber> -i ~/.ssh/yourPrivateSshKeyFile`
 
 ### Helpful cli scripts ### (usage: docker exec ... or kubectl exec ...)
 

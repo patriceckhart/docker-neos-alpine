@@ -65,7 +65,10 @@ RUN cd /tmp \
 
 RUN pecl install yaml && echo "extension=yaml.so" > /usr/local/etc/php/conf.d/ext-yaml.ini && docker-php-ext-enable --ini-name ext-yaml.ini yaml
 
-RUN curl -o /tmp/composer-setup.php https://getcomposer.org/installer && php /tmp/composer-setup.php --no-ansi --install-dir=/usr/local/bin --filename=composer --version=1.10.10 && rm -rf /tmp/composer-setup.php
+RUN curl -o /tmp/composer-setup.php https://getcomposer.org/installer && php /tmp/composer-setup.php --no-ansi --install-dir=/usr/local/bin --filename=composer --version=1.10.15 && rm -rf /tmp/composer-setup.php
+
+RUN mkdir /etc/periodic/1min
+RUN crontab -l | { echo "*       *       *       *       *       run-parts /etc/periodic/1min"; cat; } | crontab -
 
 RUN echo 'StrictHostKeyChecking no' >> /etc/ssh/ssh_config
 
@@ -88,6 +91,9 @@ COPY /config/neos/flush-cache-prod.sh /flush-cache-prod.sh
 
 COPY /config/pipeline/pull-app.sh /pull-app.sh
 RUN chmod 755 /pull-app.sh
+
+COPY /config/pipeline/pull-app-silent.sh /pull-app-silent.sh
+RUN chmod 755 /pull-app-silent.sh
 
 RUN chmod 755 /update-neos-silent.sh
 
