@@ -6,7 +6,6 @@ ENV DB_DATABASE databasename
 ENV DB_HOST databasehost
 ENV DB_USER databaseuser
 ENV DB_PASS databasepassword
-ENV BASE_URI /
 
 ENV SITE_PACKAGE nosite
 ENV ADMIN_PASSWORD noadmpwd

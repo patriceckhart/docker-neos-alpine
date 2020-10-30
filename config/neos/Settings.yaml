@@ -7,7 +7,5 @@ Neos:
         user: '%env:DB_USER%'
         password: '%env:DB_PASS%'
         host: '%env:DB_HOST%'
-    http:
-      baseUri: '%env:BASE_URI%'
   Imagine:
     driver: Imagick
