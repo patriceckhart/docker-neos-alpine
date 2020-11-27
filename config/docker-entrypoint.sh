@@ -4,6 +4,7 @@ set -ex
 DIR="/data/neos/Web"
 FILE=/data/neos/composer.lock
 PHP="/php"
+INSTALL="/install"
 
 if [ -f "$PHP" ]; then
   echo "PHP has already been configured."
@@ -31,7 +32,7 @@ chown www-data:www-data /var/run/php-fpm.sock
 
 if [ "$PERSISTENT_RESOURCES_FALLBACK_BASE_URI" != "non" ]; then
 
-  if [ -f "$FILE" ]; then
+  if [ -f "$INSTALL" ]; then
 
     echo "Resource fallback uri has already been added."
 
@@ -43,7 +44,7 @@ if [ "$PERSISTENT_RESOURCES_FALLBACK_BASE_URI" != "non" ]; then
 
 fi
 
-if [ -f "$FILE" ]; then
+if [ -f "$INSTALL" ]; then
 
   if [ "$GITHUB_TOKEN" != "nogittoken" ]; then
 
@@ -67,7 +68,7 @@ else
 
     git clone https://$GITHUB_USERNAME:$GITHUB_TOKEN@github.com/$GITHUB_USERNAME/$GITHUB_REPOSITORY /data/neos
     composer config -g github-oauth.github.com $GITHUB_TOKEN
-  
+
   fi
 
   echo "Installing Neos ..."
@@ -79,14 +80,16 @@ else
   chmod -R 775 /data
   echo "Neos installation completed."
 
+  echo "install" > /install
+
   if [ "$DB_DATABASE" == "databasename" ]; then
 
-    echo "Neos must be installed manually."
+    echo "Neos must be set up manually."
     
   else
 
     mv /Settings.yaml /data/neos/Configuration/Settings.yaml
-    su www-data -c "/set-settings.sh"
+    su www-data -c "/sh/set-settings.sh"
     chown -R www-data:www-data /data
     chmod -R 775 /data
 
@@ -207,7 +210,7 @@ echo "nginx has started."
 chown -R www-data:www-data /data
 chmod -R 775 /data
 
-su www-data -c "/set-filepermissions.sh"
+su www-data -c "/sh/set-filepermissions.sh"
 
 echo "Start import Github keys ..."
 
@@ -233,38 +236,47 @@ if [ -z "${GITHUB_USERNAME+xxx}" ] || [ -z "${GITHUB_USERNAME}" ]; then
 else
   for user in $(echo $GITHUB_USERNAME | tr "," "\n"); do
     echo "user: $user"
-    su www-data -c "/github-keys.sh $user"
+    su www-data -c "/sh/github-keys.sh $user"
   done
 fi
 
 if [ "$UPDATEPACKAGES" == "daily" ]; then
 
-  cp /update-neos.sh /data/cron/daily/200-updateneos
+  cp /sh/update-neos.sh /data/cron/daily/200-updateneos
 
 fi
 
 if [ "$UPDATEPACKAGES" == "weekly" ]; then
 
-  cp /update-neos.sh /data/cron/weekly/200-updateneos
+  cp /sh/update-neos.sh /data/cron/weekly/200-updateneos
 
 fi
 
 if [ "$UPDATEPACKAGES" == "monthly" ]; then
 
-  cp /update-neos.sh /data/cron/monthly/200-updateneos
+  cp /sh/update-neos.sh /data/cron/monthly/200-updateneos
 
 fi
 
-cp /update-neos.sh /usr/local/bin/updateneos
-cp /update-neos-silent.sh /usr/local/bin/updateneossilent
-cp /set-filepermissions.sh /usr/local/bin/setfilepermissions
+cp /sh/update-neos.sh /usr/local/bin/updateneos
+cp /sh/update-neos-silent.sh /usr/local/bin/updateneossilent
+cp /sh/set-filepermissions.sh /usr/local/bin/setfilepermissions
 
-cp /flush-cache.sh /usr/local/bin/flushcache
-cp /flush-cache-dev.sh /usr/local/bin/flushcachedev
-cp /flush-cache-prod.sh /usr/local/bin/flushcacheprod
+cp /sh/flush-cache.sh /usr/local/bin/flushcache
+cp /sh/flush-cache-dev.sh /usr/local/bin/flushcachedev
+cp /sh/flush-cache-prod.sh /usr/local/bin/flushcacheprod
 
-cp /pull-app.sh /usr/local/bin/pullapp
-cp /pull-app-silent.sh /usr/local/bin/pullappsilent
+cp /sh/pull-app.sh /usr/local/bin/pullapp
+cp /sh/pull-app-silent.sh /usr/local/bin/pullappsilent
+
+chmod 755 /usr/local/bin/updateneos
+chmod 755 /usr/local/bin/updateneossilent
+chmod 755 /usr/local/bin/setfilepermissions
+chmod 755 /usr/local/bin/flushcache
+chmod 755 /usr/local/bin/flushcachedev
+chmod 755 /usr/local/bin/flushcacheprod
+chmod 755 /usr/local/bin/pullapp
+chmod 755 /usr/local/bin/pullappsilent
 
 chown -Rf nginx:nginx /var/lib/nginx
 
@@ -274,11 +286,11 @@ postfix start
 
 echo "SSH has started."
 
-/usr/sbin/crond -fS
-
 echo "crond has started."
 
 echo "Container is up und running."
+
+/usr/sbin/crond -fS
 
 tail -f /dev/null
 #exec "$@"

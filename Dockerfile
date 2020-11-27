@@ -64,7 +64,7 @@ RUN cd /tmp \
 
 RUN pecl install yaml && echo "extension=yaml.so" > /usr/local/etc/php/conf.d/ext-yaml.ini && docker-php-ext-enable --ini-name ext-yaml.ini yaml
 
-RUN curl -o /tmp/composer-setup.php https://getcomposer.org/installer && php /tmp/composer-setup.php --no-ansi --install-dir=/usr/local/bin --filename=composer --version=1.10.15 && rm -rf /tmp/composer-setup.php
+RUN curl -o /tmp/composer-setup.php https://getcomposer.org/installer && php /tmp/composer-setup.php --no-ansi --install-dir=/usr/local/bin --filename=composer --version=2.0.7 && rm -rf /tmp/composer-setup.php
 
 RUN mkdir /etc/periodic/1min
 RUN crontab -l | { echo "*       *       *       *       *       run-parts /etc/periodic/1min"; cat; } | crontab -
@@ -76,25 +76,26 @@ COPY /config/nginx/neos.conf /etc/nginx/conf.d/default.conf
 COPY /config/nginx/nginx.conf /etc/nginx/conf.d/vars.conf
 
 RUN mkdir -p /run/nginx
+RUN mkdir -p /sh
 
-COPY /config/neos/Settings.yaml /Settings.yaml
-COPY /config/neos/set-settings.sh /set-settings.sh
-COPY /config/sshd/github-keys.sh /github-keys.sh
-COPY /config/neos/update-neos.sh /update-neos.sh
-COPY /config/neos/update-neos-silent.sh /update-neos-silent.sh
-COPY /config/neos/set-filepermissions.sh /set-filepermissions.sh
+COPY /config/neos/Settings.yaml /sh/Settings.yaml
+COPY /config/neos/set-settings.sh /sh/set-settings.sh
+COPY /config/sshd/github-keys.sh /sh/github-keys.sh
+COPY /config/neos/update-neos.sh /sh/update-neos.sh
+COPY /config/neos/update-neos-silent.sh /sh/update-neos-silent.sh
+COPY /config/neos/set-filepermissions.sh /sh/set-filepermissions.sh
 
-COPY /config/neos/flush-cache.sh /flush-cache.sh
-COPY /config/neos/flush-cache-dev.sh /flush-cache-dev.sh
-COPY /config/neos/flush-cache-prod.sh /flush-cache-prod.sh
+COPY /config/neos/flush-cache.sh /sh/flush-cache.sh
+COPY /config/neos/flush-cache-dev.sh /sh/flush-cache-dev.sh
+COPY /config/neos/flush-cache-prod.sh /sh/flush-cache-prod.sh
 
-COPY /config/pipeline/pull-app.sh /pull-app.sh
-RUN chmod 755 /pull-app.sh
+COPY /config/pipeline/pull-app.sh /sh/pull-app.sh
+RUN chmod 755 /sh/pull-app.sh
 
-COPY /config/pipeline/pull-app-silent.sh /pull-app-silent.sh
-RUN chmod 755 /pull-app-silent.sh
+COPY /config/pipeline/pull-app-silent.sh /sh/pull-app-silent.sh
+RUN chmod 755 /sh/pull-app-silent.sh
 
-RUN chmod 755 /update-neos-silent.sh
+RUN chmod 755 /sh/update-neos-silent.sh
 
 COPY /config/etc/motd /etc/motd
 
