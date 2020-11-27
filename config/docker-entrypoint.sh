@@ -88,7 +88,7 @@ else
     
   else
 
-    mv /Settings.yaml /data/neos/Configuration/Settings.yaml
+    mv /sh/Settings.yaml /data/neos/Configuration/Settings.yaml
     su www-data -c "/sh/set-settings.sh"
     chown -R www-data:www-data /data
     chmod -R 775 /data
