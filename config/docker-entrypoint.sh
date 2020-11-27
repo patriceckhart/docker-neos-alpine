@@ -32,7 +32,7 @@ chown www-data:www-data /var/run/php-fpm.sock
 
 if [ "$PERSISTENT_RESOURCES_FALLBACK_BASE_URI" != "non" ]; then
 
-  if [ -f "$INSTALL" ]; then
+  if [ -f "$FILE" ]; then
 
     echo "Resource fallback uri has already been added."
 
@@ -44,7 +44,7 @@ if [ "$PERSISTENT_RESOURCES_FALLBACK_BASE_URI" != "non" ]; then
 
 fi
 
-if [ -f "$INSTALL" ]; then
+if [ -f "$FILE" ]; then
 
   if [ "$GITHUB_TOKEN" != "nogittoken" ]; then
 
