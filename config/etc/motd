@@ -1,5 +1,5 @@
 
-Welcome to an awesome Neos CMS docker image 
+Welcome to an awesome Neos CMS 🐳 docker image 
 based on Alpine linux with nginx + php-fpm 7.4 🚀, 
 packing everything needed for development and production usage of Neos.
 

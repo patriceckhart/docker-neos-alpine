@@ -38,7 +38,7 @@ if [ "$PERSISTENT_RESOURCES_FALLBACK_BASE_URI" != "non" ]; then
 
   else
 
-    sed -i -e "s#8.8.8.8;#8.8.8.8;proxy_pass $PERSISTENT_RESOURCES_FALLBACK_BASE_URI;#" /etc/nginx/conf.d/default.conf
+    sed -i -e "s#8.8.8.8;#8.8.8.8;\nproxy_pass $PERSISTENT_RESOURCES_FALLBACK_BASE_URI;\n#" /etc/nginx/conf.d/default.conf
 
   fi
 
