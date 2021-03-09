@@ -54,6 +54,13 @@ RUN apk add --no-cache redis
 
 RUN pecl install redis && docker-php-ext-enable redis
 
+RUN docker-php-ext-install bcmath && docker-php-ext-enable bcmath
+
+RUN apk add \
+        libzip-dev \
+        zip \
+  && docker-php-ext-install zip
+
 RUN pecl install imagick-beta && docker-php-ext-enable --ini-name 20-imagick.ini imagick
 
 RUN cd /tmp \
@@ -64,7 +71,7 @@ RUN cd /tmp \
 
 RUN pecl install yaml && echo "extension=yaml.so" > /usr/local/etc/php/conf.d/ext-yaml.ini && docker-php-ext-enable --ini-name ext-yaml.ini yaml
 
-RUN curl -o /tmp/composer-setup.php https://getcomposer.org/installer && php /tmp/composer-setup.php --no-ansi --install-dir=/usr/local/bin --filename=composer --version=2.0.7 && rm -rf /tmp/composer-setup.php
+RUN curl -o /tmp/composer-setup.php https://getcomposer.org/installer && php /tmp/composer-setup.php --no-ansi --install-dir=/usr/local/bin --filename=composer --version=2.0.11 && rm -rf /tmp/composer-setup.php
 
 RUN mkdir /etc/periodic/1min
 RUN crontab -l | { echo "*       *       *       *       *       run-parts /etc/periodic/1min"; cat; } | crontab -
