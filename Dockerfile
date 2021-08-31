@@ -22,7 +22,7 @@ ENV PERSISTENT_RESOURCES_FALLBACK_BASE_URI non
 RUN set -x \
 	&& apk update \
 	&& apk add bash \
-	&& apk add nano git nginx tar curl postfix mysql-client optipng freetype libjpeg-turbo-utils icu-dev openssh pwgen build-base && apk add --virtual libtool freetype-dev libpng-dev libjpeg-turbo-dev yaml-dev libssh2-dev \
+	&& apk add nano git nginx tar curl postfix mysql-client optipng freetype libjpeg-turbo-utils icu-dev vips-dev vips-tools openssh pwgen build-base && apk add --virtual libtool freetype-dev libpng-dev libjpeg-turbo-dev yaml-dev libssh2-dev \
 	&& docker-php-ext-configure gd --with-freetype --with-jpeg \
 	&& docker-php-ext-install \
 		gd \
@@ -67,6 +67,7 @@ RUN apk add \
   && docker-php-ext-install zip
 
 RUN pecl install imagick-beta && docker-php-ext-enable --ini-name 20-imagick.ini imagick
+RUN pecl install vips && echo "extension=vips.so" > /usr/local/etc/php/conf.d/ext-vips.ini && docker-php-ext-enable --ini-name ext-vips.ini vips
 
 RUN cd /tmp \
     && git clone https://git.php.net/repository/pecl/networking/ssh2.git \
